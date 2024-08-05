@@ -67,6 +67,20 @@ app.get('/customers', async (req, res) => {
   }
 });
 
+
+app.put('/customers/:id', async (req, res) => {
+  const { id } = req.params;
+  const { name, productName, price, address, phone } = req.body;
+
+  try {
+    const customer = await Customer.findByIdAndUpdate(id, { name, productName, price, address, phone }, { new: true });
+    res.send(customer);
+  } catch (error) {
+    console.error('Error updating customer data:', error);
+    res.status(500).send('Error updating customer data');
+  }
+});
+
 app.delete('/customers/:id', async (req, res) => {
   try {
     await Customer.findByIdAndDelete(req.params.id);
